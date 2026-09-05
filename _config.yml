@@ -29,6 +29,8 @@ linkedin_username: sai-balaji-k-821061183
 
 # Build settings
 theme: minima
+minima:
+  skin: dark
 plugins:
   - jekyll-feed
 
