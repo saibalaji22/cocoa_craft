@@ -220,3 +220,23 @@ c1.printDetails
 
   
 We can also access the instance variables inside the instance method.
+
+### Combining both getter and setter using accessor
+
+{% highlight ruby %}
+class Car
+	attr_accessor :name, :year, :model
+	def printDetails
+		@model = "test"
+		puts "The model is #{@model} and make is #{:year}"
+	end
+end
+c1 = Car.new
+c1.name = "Nissan"
+c1.model = "R35 GTR"
+c1.year = 2015
+puts c1.model
+puts c1.name
+puts c1.year
+c1.printDetails
+{% endhighlight %}
