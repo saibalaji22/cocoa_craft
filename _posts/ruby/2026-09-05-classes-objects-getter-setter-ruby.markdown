@@ -2,6 +2,7 @@
 layout: post
 title: "Classes, Objects, Getters, Setters and Accessors in Ruby"
 categories: ruby
+date: 2026-09-05
 permalink: :categories/rubyclasses.html
 ---
 
@@ -239,4 +240,69 @@ puts c1.model
 puts c1.name
 puts c1.year
 c1.printDetails
+{% endhighlight %}
+
+
+### Encapsulation in Ruby
+
+Encapsulation means binding of data and method together inside a class and controlling access to what type of data can be accessed outside the class. The core idea is that objet should hide its internal states and expose only required details. In ruby encapsulation can be provided by using getter and setters either via methods or attribute accessors. 
+
+
+
+Example
+Consider the following task
+
+Task: Build a BankAccount class
+Requirements:
+1. Create a BankAccount class with:
+    * account_number — should be readable from outside, but never changeable after creation
+    * balance — should be readable from outside, but should NOT have a public setter (no one should do account.balance = 10000 directly)
+2. Add these public methods:
+    * deposit(amount) — adds to balance, but should raise an error if amount <= 0
+    * withdraw(amount) — subtracts from balance, but should raise an error if:
+        * amount <= 0
+        * the withdrawal would make balance go negative
+3. Add a private helper method called sufficient_funds?(amount) that withdraw uses internally to check if there's enough balance. It should not be callable from outside the object.
+
+{% highlight ruby %}
+class BankAccount
+  attr_reader :account_number #read only from outside 
+  attr_reader :balance #read only from outside 
+
+  def initialize(account_number,balance)
+    @account_number = account_number
+    @balance = balance
+  end
+
+  def deposit(amount)
+    if amount <= 0
+      raise "Invalid amount"
+    end
+    @balance += amount
+  end
+
+  def withdraw(amount)
+    if amount <= 0 
+      raise "Invalid amount"
+    end
+    if sufficient_funds?(amount) == false 
+      raise "Insufficient balance"
+    end
+    @balance -= amount
+  end
+
+
+
+  private 
+  def sufficient_funds?(amount)
+    return amount <= @balance
+  end
+
+end
+
+a1 = BankAccount.new(2342523,500)
+a1.deposit 200
+puts "Account number: #{a1.account_number} \nBalance: #{a1.balance}"
+a1.withdraw 100
+puts "Account number: #{a1.account_number} \nBalance: #{a1.balance}"
 {% endhighlight %}
